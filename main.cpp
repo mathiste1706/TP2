@@ -1,104 +1,56 @@
 #include <iostream>
 #include "Entree.h"
-#include "Tableau.h"
 #include "Agenda.hpp"
 using namespace std; 
 
 int main() {
-    
-    Entree entree1("nom1", "11111");
-    entree1.afficher();
 
-    Tableau tabTailleDef(10); // Apelle constructeur par defaut de Tableau
-    cout<< "tailleMax: "<<tabTailleDef.getTailleMax()<<endl;
-    cout<< "nbElements: "<<tabTailleDef.getNbElements()<<endl;
-
-    Tableau tab1(4);
-    tab1.ajouter("nom2", "2222");
-    cout<< "nbElements: "<<tab1.getNbElements()<<endl;
-    cout<< "tab1\n";
-    tab1.afficher();
-
-    Tableau tabCopie(tab1);
-    cout<< "tabCopie ajout entree\n";
-    tabCopie.afficher();
-    tabCopie.ajouter("nom_copie", "copppp");
-
-    tab1.ajouter("nom3","3333");
-
-    cout<< "check tab1 apres ajout entree\n";
-    tab1.afficher();
-    
-    cout<<"tabCopie apres ajout entree ds tab1\n";
-    tabCopie.afficher();
-
-    tabCopie.supprimer("nom2", "2222");
-
-    cout<< "tabCopie apres suppression de entre2\n";
-    tabCopie.afficher();
-
-    cout<< "tab1 apres suppression de entre2 ds tabCopie\n";
-    tab1.afficher();
-
-    tabCopie.ajouter("nom2", "2222");
-    tabCopie.ajouter("nom3","3333");
-    tabCopie.ajouter("nom3","4444");
-    tabCopie.ajouter("nomM","MMMM");
-
-    cout<<"tab Copie apres ajout 2 et 3 et 4\n";
-    tabCopie.afficher();
-
-    cout<<"tab Copie apres suppression 2 et 3 et 4\n";
-    tabCopie.supprimer("nom2", "2222");
-    tabCopie.supprimer("nom_copie", "copppp");
-    tabCopie.supprimer("nom3");
-    tabCopie.afficher();
-    tabCopie.~Tableau();
-
-    Agenda agenda(3);
-    agenda.ajouter("nom3", "3333");
+    Agenda agenda(6);
+    Entree entree("nom3", "3333");
+    agenda+=entree;
     agenda.ajouter("nom3","4444");
-    agenda.ajouter("nom2", "2222");
-    agenda.ajouter("nom5", "5555");
-    cout<<"agenda apres ajout 2, 3, 4 et 5\n";
-    agenda.afficher();
+    //agenda.ajouter("nom2", "2222");
+    //agenda.ajouter("nom5", "5555");
+    cout<<"agenda apres ajout entree\n";
+    cout<<agenda;
 
+    Agenda agendaCopie=agenda;
+    cout<< "agenda affectation =\n"<<agendaCopie;
 
-    Agenda agendaCopie(agenda);
-    cout<<"agenda copie\n";
-    agendaCopie.afficher();
-    Agenda agendaConcat=agendaConcat.concat(agenda, agendaCopie);
-    cout<<"agenda concat return un 3eme agenda\n";
-    agendaConcat.afficher();
+    cout<< "nouvel agenda à partir d'une concatenation\n";
+    Agenda agendaConcat;
+    agendaConcat=agendaConcat.concat(agenda, agendaCopie);
+    cout<<agendaConcat;
 
-    cout<<"agenda concat ds un agenda existant erreur attendu\n";
-    agendaConcat.concat(agenda);
+    bool comparaison=agenda==agendaCopie;
+    cout<< "Compare agenda et agendaCopie vrai attendu: "<< comparaison <<endl;
+    comparaison=agenda==agendaConcat;
+    cout<< "Compare agenda et agendaConcat faux attendu: "<< comparaison<<endl;
 
-    Agenda agenda4(4);
-    agenda4.ajouter("nom6", "6666");
-    agenda4.concat(agenda);
-    cout<<"agenda concat ds un agenda\n";
-    agenda4.afficher();
+    agenda+=agendaConcat;
+    cout<<"concatenation dans un agenda existant\n" <<agenda<< endl;
 
-    cout<<"suppression nom2\n";
-    agenda4.supprimer("nom2", "2222");
-    agenda4.afficher();
-    cout<<"suppression nom3\n";
-    agenda4.supprimer("nom3");
-    agenda4.afficher();
+    Entree entree2("nom0", "0000");
+    agendaConcat+=entree2;
 
-   // agendaPrConcact
+    cout<<"1ere occurence de nom3\n" <<agendaConcat["nom3"]<<endl;
+    cout<<"1ere occurence de absent\n" <<agendaConcat["absent"]<<endl;
 
-    /*
-    cout<< "Seg Fault Attendue\n";
-    tabCopie.~Tableau();
-    tabCopie.afficher();
-    */
+    agendaConcat-="nom3";
+    cout<<"Suppression de toutes les entrees avec nom3\n"<< agendaConcat <<endl;
 
-    // question 5 on doit remplacer Tableau tableau par Tableau *tableau et faire soit des new pour les allocations de
-    // tableau ou tableau=Tableau(tailleMax);
-    // Aussi Agenda::Agenda(int tailleMax) : tableau(tailleMax) devient un constructeur classique
-    // et on doit créer un destructeur comme pour tableau
+    cout<<"teste si le nom: \"absent\" est dans l'agenda : " <<"absent"/agendaConcat<<endl;
+    cout<<"teste si le nom: \"nom0\" est dans l'agenda : " <<"nom0"/agendaConcat<<endl;
+
+    Entree entre3("zzzz","999");
+    agendaConcat+=entree;
+    agendaConcat+=entre3;
+    cout<<"\nAgendaConcat complet:\n"<<agendaConcat;
+
+    cout<<"\nTous les noms commençant par n\n";
+    agendaConcat('n');
+    cout<<"\nTous les noms commençant par z\n";
+    agendaConcat('z');
 
     return 0;
 }

@@ -59,14 +59,14 @@ void Tableau::ajouter(string nom, string numeroTel) {
 void Tableau::supprimer(string nom, string numeroTel) {
     bool  boolTrouve=false;
     for (int i = 0; i < this->nbElements && !boolTrouve; i++) {
-        if (this->entree[i].nom==nom and this->entree[i].numeroTel==numeroTel) {
+        if (this->entree[i].getNom()==nom and this->entree[i].getNumeroTel()==numeroTel) {
             boolTrouve=true;
             if (i!=nbElements){
                 entree[i]=entree[nbElements-1];
             }
             // Pour que l'entree supprimee ne soit plus afficher meme si afficher est apellee en suivant
-            entree[nbElements-1].nom="";
-            entree[nbElements-1].numeroTel="";
+            entree[nbElements-1].getNom()="";
+            entree[nbElements-1].getNumeroTel()="";
             this->nbElements--;
         }
     }
@@ -75,19 +75,30 @@ void Tableau::supprimer(string nom) {
     
     int index = 0;
       while (index < this->nbElements) {
-        if (this->entree[index].nom == nom) {
+        if (this->entree[index].getNom() == nom) {
             /// Pour que l'entree supprimee ne soit plus afficher meme si afficher est apellee en suivant
              if (index!=nbElements){
                 entree[index]=entree[nbElements-1];
             }
-            this->entree[this->nbElements - 1].nom = "";
-            this->entree[this->nbElements - 1].numeroTel = "";
+            this->entree[this->nbElements - 1].getNom() = "";
+            this->entree[this->nbElements - 1].getNumeroTel() = "";
             this->nbElements--;
         } else {
             index++;
         }
     }
 }
+
+
+
+ostream& operator<<(std::ostream &out, Tableau &tableau) {
+    string chaine="";
+    for (int i = 0; i < tableau.getNbElements(); i++) {
+         out<<i <<": "<<(tableau.getEntree()[i])<<endl;
+    }
+    return out;
+}
+
 
 
 

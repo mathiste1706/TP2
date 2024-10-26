@@ -25,6 +25,8 @@ public:
     void supprimer(std::string nom, std::string numeroTel);
     void supprimer(std::string nom);
 
+    friend std::ostream& operator <<(std::ostream& out , Tableau& tableau);
+
 };
 
 

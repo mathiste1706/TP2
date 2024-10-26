@@ -8,15 +8,22 @@
 
 
 class Entree {
-    friend class Tableau;
-    friend class Agenda;
+    // On a plus besoin de friend on a des getter
 private:
     std::string nom;
     std::string numeroTel;
 
 public:
-    explicit Entree(std::string nom="", std::string numeroTel="");
+    Entree(std::string nom="", std::string numeroTel="");
+
+    // getter defini pour utiliser operateur <<
+    std::string getNom();
+    std::string getNumeroTel();
+
     void afficher();
+
+    bool operator!=(const Entree &) const;
+    friend std::ostream& operator<<(std::ostream& out, Entree &);
 };
 
 
